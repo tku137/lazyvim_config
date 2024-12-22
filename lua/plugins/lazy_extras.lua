@@ -2,6 +2,7 @@ return {
   -- Language support extras
   { import = "lazyvim.plugins.extras.lang.python" },
   { import = "lazyvim.plugins.extras.lang.clangd" },
+  { import = "lazyvim.plugins.extras.lang.sql" },
   { import = "lazyvim.plugins.extras.lang.docker" },
   { import = "lazyvim.plugins.extras.lang.git" },
   { import = "lazyvim.plugins.extras.lang.json" },
@@ -10,13 +11,19 @@ return {
   { import = "lazyvim.plugins.extras.lang.toml" },
   { import = "lazyvim.plugins.extras.lang.yaml" },
 
-  -- Coding extras
+  -- Editor and coding extras
   { import = "lazyvim.plugins.extras.coding.mini-surround" },
   { import = "lazyvim.plugins.extras.coding.yanky" },
   { import = "lazyvim.plugins.extras.util.dot" },
-  -- { import = "lazyvim.plugins.extras.coding.indent" },
-  -- { import = "lazyvim.plugins.extras.coding.lsp" },
-  -- { import = "lazyvim.plugins.extras.coding.snippet" },
+  { import = "lazyvim.plugins.extras.util.mini-hipatterns" },
+  { import = "lazyvim.plugins.extras.editor.inc-rename" },
+  { import = "lazyvim.plugins.extras.editor.aerial" },
+  { import = "lazyvim.plugins.extras.editor.mini-files" },
+  -- { import = "lazyvim.plugins.extras.editor.outline" },
+  -- { import = "lazyvim.plugins.extras.editor.refactoring" },
+
+  -- Git extras
+  { import = "lazyvim.plugins.extras.editor.mini-diff" },
 
   -- AI-related extras
   { import = "lazyvim.plugins.extras.ai.copilot" },
