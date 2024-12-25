@@ -6,3 +6,22 @@
 --
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
+
+-- Open dashboard when no buffers remain
+vim.api.nvim_create_autocmd("BufDelete", {
+  group = vim.api.nvim_create_augroup("DashboardOnEmpty", { clear = true }),
+  callback = function(args)
+    vim.schedule(function()
+      -- Filter for valid and listed buffers with names
+      local bufs = vim.tbl_filter(function(buf)
+        return vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted and vim.api.nvim_buf_get_name(buf) ~= ""
+      end, vim.api.nvim_list_bufs())
+
+      -- Open the snacks.dashboard if no buffers remain
+      if #bufs == 0 then
+        -- Replace with the correct function or command
+        require("snacks.dashboard").open()
+      end
+    end)
+  end,
+})
