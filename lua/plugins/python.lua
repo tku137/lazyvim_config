@@ -22,7 +22,7 @@ return {
               inlayHints = {
                 variableTypes = false,
                 functionReturnTypes = false,
-                -- callArgumentNames = false,
+                callArgumentNames = false,
                 -- genericTypes = false,
               },
             },

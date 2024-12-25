@@ -21,6 +21,7 @@ function M.toggle_basedpyright_settings()
   local hints = analysis.inlayHints
   hints.variableTypes = not hints.variableTypes
   hints.functionReturnTypes = not hints.functionReturnTypes
+  hints.callArgumentNames = not hints.callArgumentNames
 
   -- Restart the LSP to apply changes
   vim.lsp.stop_client(client.id)
