@@ -1,6 +1,3 @@
--- stylua: ignore
--- if true then return {} end
-
 return {
   "Weissle/persistent-breakpoints.nvim",
   event = "BufReadPost",
