@@ -19,8 +19,10 @@ vim.api.nvim_create_autocmd("BufDelete", {
 
       -- Open the snacks.dashboard if no buffers remain
       if #bufs == 0 then
-        -- Replace with the correct function or command
-        require("snacks.dashboard").open()
+        ---@diagnostic disable-next-line: missing-fields
+        require("snacks.dashboard").open({
+          win = vim.api.nvim_get_current_win(),
+        })
       end
     end)
   end,
