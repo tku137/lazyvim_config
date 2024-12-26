@@ -86,7 +86,7 @@ return {
         desc = "Toggle vertical/horizontal split",
         mode = "n",
       },
-      -- Visual mode keymap
+      -- Visual mode keymaps
       {
         "<Leader>r",
         function()

@@ -4,7 +4,6 @@ return {
     dashboard = {
       sections = {
         { section = "header" },
-        -- { section = "keys", gap = 0, padding = 1 },
         { icon = " ", title = "Keymaps", section = "keys", indent = 2, padding = 1 },
         {
           icon = " ",
@@ -15,7 +14,6 @@ return {
           indent = 2,
           padding = 1,
         },
-        -- { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 2 },
         {
           icon = " ",
           title = "Git Status",
