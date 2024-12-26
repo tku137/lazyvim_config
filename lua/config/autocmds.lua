@@ -10,7 +10,7 @@
 -- Open dashboard when no buffers remain
 vim.api.nvim_create_autocmd("BufDelete", {
   group = vim.api.nvim_create_augroup("DashboardOnEmpty", { clear = true }),
-  callback = function(args)
+  callback = function()
     vim.schedule(function()
       -- Filter for valid and listed buffers with names
       local bufs = vim.tbl_filter(function(buf)
