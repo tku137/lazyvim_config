@@ -19,6 +19,7 @@ return {
   { import = "lazyvim.plugins.extras.editor.inc-rename" },
   { import = "lazyvim.plugins.extras.editor.aerial" },
   { import = "lazyvim.plugins.extras.editor.mini-files" },
+  { import = "lazyvim.plugins.extras.util.project" },
   -- { import = "lazyvim.plugins.extras.editor.outline" },
   -- { import = "lazyvim.plugins.extras.editor.refactoring" },
 
