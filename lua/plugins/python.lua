@@ -39,11 +39,15 @@ return {
     keys = {
       -- Normal mode keymaps
       {
+        prefix,
+        desc = "ipython REPL",
+      },
+      {
         prefix .. "r",
         function()
           require("nvim-python-repl").send_statement_definition()
         end,
-        desc = "Send semantic unit to REPL",
+        desc = "Send to ipython terminal",
         mode = "n",
       },
       {
@@ -51,7 +55,7 @@ return {
         function()
           require("nvim-python-repl").send_statement_definition()
         end,
-        desc = "Send semantic unit to REPL",
+        desc = "Send to ipython terminal",
         mode = "n",
       },
       {
@@ -92,7 +96,7 @@ return {
         function()
           require("nvim-python-repl").send_visual_to_repl()
         end,
-        desc = "Send visual selection to REPL",
+        desc = "Send to ipython terminal",
         mode = "v",
       },
     },
