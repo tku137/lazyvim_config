@@ -58,14 +58,13 @@ return {
       {
         -- Make sure to set this up properly if you have lazy=true
         "MeanderingProgrammer/render-markdown.nvim",
+        dependencies = {
+          -- make sure rendering happens even without opening a markdown file first
+          "yetone/avante.nvim",
+        },
         opts = function(_, opts)
-          opts.file_types = opts.file_types or {}
+          opts.file_types = opts.file_types or { "markdown", "norg", "rmd", "org" }
           vim.list_extend(opts.file_types, { "Avante" })
-        end,
-        ft = function(ft_list)
-          ft_list = ft_list or {}
-          vim.list_extend(ft_list, { "markdown", "Avante" })
-          return ft_list
         end,
       },
     },
