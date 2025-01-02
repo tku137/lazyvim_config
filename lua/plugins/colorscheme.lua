@@ -7,9 +7,15 @@ return {
     },
   },
   {
+    "folke/tokyonight.nvim",
+    lazy = true,
+    opts = { style = "moon" }, -- moon, stomr, night, day
+  },
+  {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin",
+      -- colorscheme = "catppuccin",
+      colorscheme = "tokyonight",
     },
   },
 }
