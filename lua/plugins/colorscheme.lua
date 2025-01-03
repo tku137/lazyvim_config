@@ -1,6 +1,7 @@
 return {
   {
     "catppuccin/nvim",
+    enabled = false,
     name = "catppuccin",
     opts = {
       flavour = "macchiato",
