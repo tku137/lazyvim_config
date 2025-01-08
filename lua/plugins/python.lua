@@ -1,4 +1,4 @@
-local prefix = "<Leader>cr"
+local prefix = "<Leader>cI"
 
 return {
   {
@@ -40,7 +40,8 @@ return {
       -- Normal mode keymaps
       {
         prefix,
-        desc = "ipython REPL",
+        "",
+        desc = "iPython Terminal",
       },
       {
         prefix .. "r",
