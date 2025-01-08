@@ -33,6 +33,7 @@ return {
   },
   {
     "geg2102/nvim-python-repl",
+    lazy = true,
     dependencies = {
       "nvim-treesitter",
     },

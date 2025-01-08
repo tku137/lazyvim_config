@@ -2,6 +2,7 @@ local prefix = "<Leader>g"
 return {
   {
     "NeogitOrg/neogit",
+    lazy = true,
     cmd = "Neogit",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -25,6 +26,7 @@ return {
   },
   {
     "wintermute-cell/gitignore.nvim",
+    lazy = true,
     dependencies = {
       "ibhagwan/fzf-lua",
     },
@@ -70,6 +72,7 @@ return {
   },
   {
     "SuperBo/fugit2.nvim",
+    lazy = true,
     opts = {
       width = 100,
     },
