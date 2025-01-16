@@ -28,7 +28,9 @@ return {
         },
       },
       provider = "copilot",
-      auto_suggestions_provider = "copilot",
+      behaviour = {
+        auto_suggestions = false,
+      },
       copilot = {
         max_tokens = 8192,
       },
