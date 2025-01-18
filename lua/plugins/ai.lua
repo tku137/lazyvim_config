@@ -27,11 +27,13 @@ return {
           add_current = prefix .. ".",
         },
       },
-      provider = "copilot",
       behaviour = {
         auto_suggestions = false,
       },
+      provider = "copilot",
       copilot = {
+        model = "claude-3.5-sonnet",
+        temperature = 0,
         max_tokens = 8192,
       },
     },
