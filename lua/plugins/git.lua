@@ -28,37 +28,37 @@ return {
     "wintermute-cell/gitignore.nvim",
     lazy = true,
     dependencies = {
-      "ibhagwan/fzf-lua",
+      "folke/snacks.nvim",
     },
     config = function()
       local gitignore = require("gitignore")
-      local fzf = require("fzf-lua")
 
       gitignore.generate = function(opts)
-        local picker_opts = {
-          prompt = "Select templates for gitignore file> ",
-          winopts = {
-            width = 0.4,
-            height = 0.3,
+        Snacks.picker({
+          items = vim.tbl_map(function(name)
+            return {
+              id = name,
+              text = name,
+              file = name,
+            }
+          end, gitignore.templateNames),
+          preview = "text",
+          title = "Select templates for .gitignore file",
+          layout = {
+            preview = false,
           },
-          -- Enable multi-selection
-          fzf_opts = {
-            ["--multi"] = "",
-            ["--bind"] = "tab:toggle+down",
-          },
-          actions = {
-            default = function(selected, _)
-              gitignore.createGitignoreBuffer(opts.args, selected)
-            end,
-          },
-        }
-
-        fzf.fzf_exec(function(fzf_cb)
-          for _, prefix in ipairs(gitignore.templateNames) do
-            fzf_cb(prefix)
-          end
-          fzf_cb()
-        end, picker_opts)
+          confirm = function(picker)
+            local selected = picker:selected({ fallback = true })
+            if selected and #selected > 0 then
+              local templates = vim.tbl_map(function(item)
+                return item.id
+              end, selected)
+              picker:close()
+              gitignore.createGitignoreBuffer(opts.args, templates)
+            end
+            picker:close()
+          end,
+        })
       end
 
       vim.api.nvim_create_user_command("Gitignore", gitignore.generate, {
@@ -67,7 +67,7 @@ return {
       })
     end,
     keys = {
-      { "<leader>ci", mode = "n", desc = "Generate .gitignore", "<cmd>Gitignore<cr>" },
+      { "<leader>gi", mode = "n", desc = "Generate .gitignore", "<cmd>Gitignore<cr>" },
     },
   },
   {
