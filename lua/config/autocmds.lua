@@ -27,3 +27,17 @@ vim.api.nvim_create_autocmd("BufDelete", {
     end)
   end,
 })
+
+-- Navigate terminal with C-hjkl
+local term_augroup = vim.api.nvim_create_augroup("TerminalMappings", { clear = true })
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  group = term_augroup,
+  callback = function()
+    local opts = { buffer = 0, noremap = true, silent = true }
+    vim.keymap.set("t", "<C-h>", [[<C-\><C-n><C-W>h]], opts)
+    vim.keymap.set("t", "<C-j>", [[<C-\><C-n><C-W>j]], opts)
+    vim.keymap.set("t", "<C-k>", [[<C-\><C-n><C-W>k]], opts)
+    vim.keymap.set("t", "<C-l>", [[<C-\><C-n><C-W>l]], opts)
+  end,
+})
