@@ -1,7 +1,9 @@
 local M = {}
 
 --- Toggle BasedPyright typeCheckingMode and inlay hints
-function M.toggle_basedpyright_settings()
+function M.toggle_basedpyright_settings(opts)
+  opts = opts or {}
+
   -- Get the LSP client for basedpyright
   local client = vim.lsp.get_clients({ name = "basedpyright" })[1]
   if not client then
@@ -27,12 +29,14 @@ function M.toggle_basedpyright_settings()
   vim.lsp.stop_client(client.id)
   vim.defer_fn(function()
     vim.cmd("LspStart basedpyright")
-    vim.notify(
-      "BasedPyright restarted with typeCheckingMode: "
-        .. analysis.typeCheckingMode
-        .. "\nInlay Hints: "
-        .. (hints.variableTypes and "enabled" or "disabled")
-    )
+    if not opts.silent then
+      vim.notify(
+        "BasedPyright restarted with typeCheckingMode: "
+          .. analysis.typeCheckingMode
+          .. "\nInlay Hints: "
+          .. (hints.variableTypes and "enabled" or "disabled")
+      )
+    end
   end, 100)
 end
 
