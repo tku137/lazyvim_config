@@ -40,7 +40,7 @@ return {
       },
       provider = "copilot",
       copilot = {
-        model = "claude-3.5-sonnet",
+        model = "claude-3.7-sonnet",
         temperature = 0,
         max_tokens = 8192,
       },
