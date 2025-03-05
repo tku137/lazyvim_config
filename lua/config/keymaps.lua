@@ -21,6 +21,22 @@ Snacks.toggle
   })
   :map("<leader>uP")
 
+
+-- Add a keympa to toggle yamlls using schemastore or not
+Snacks.toggle
+  .new({
+    name = "YAML SchemaStore Toggle",
+    get = function()
+      local client = vim.lsp.get_clients({ name = "yamlls" })[1]
+      return client and client.config.settings.yaml.schemaStore.enable
+    end,
+    set = function(_)
+      require("utils.lsp_utils").toggle_yaml_schema_store({ silent = true })
+    end,
+  })
+  :map("<leader>uy")
+
+
 -- Add some DAP mappings
 vim.keymap.set("n", "<F5>", function() require("dap").continue() end, { desc = "Debugger: Start" })
 vim.keymap.set("n", "<F6>", function() require("dap").pause() end, { desc = "Debugger: Pause" })
