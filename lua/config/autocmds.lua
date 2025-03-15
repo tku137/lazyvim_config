@@ -41,3 +41,11 @@ vim.api.nvim_create_autocmd("TermOpen", {
     vim.keymap.set("t", "<C-l>", [[<C-\><C-n><C-W>l]], opts)
   end,
 })
+
+-- Filetype-specific override: for markdown, tex, and typst files, use English and German.
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "tex", "typst" },
+  callback = function()
+    vim.opt_local.spelllang = { "en", "de" }
+  end,
+})
