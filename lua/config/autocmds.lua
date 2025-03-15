@@ -41,3 +41,12 @@ vim.api.nvim_create_autocmd("TermOpen", {
     vim.keymap.set("t", "<C-l>", [[<C-\><C-n><C-W>l]], opts)
   end,
 })
+
+-- Automatically set spellchecking languages for certain text files
+-- Create an autocommand for both .typ and .tex files that calls the apply_spell_language() function.
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  pattern = { "*.typ", "*.tex" },
+  callback = function()
+    require("utils.spell_utils").apply_spell_language()
+  end,
+})

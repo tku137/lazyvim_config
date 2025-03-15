@@ -37,6 +37,19 @@ Snacks.toggle
   :map("<leader>uy")
 
 
+-- Toggle automatic spell checker language switching
+Snacks.toggle
+  .new({
+    name = "Spell Language Auto Switching",
+    get = function()
+      return require("utils.spell_utils").is_enabled()
+    end,
+    set = function(_)
+      require("utils.spell_utils").toggle()
+    end,
+  })
+  :map("<leader>uk")
+
 -- Add some DAP mappings
 vim.keymap.set("n", "<F5>", function() require("dap").continue() end, { desc = "Debugger: Start" })
 vim.keymap.set("n", "<F6>", function() require("dap").pause() end, { desc = "Debugger: Pause" })
