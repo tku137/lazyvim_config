@@ -14,6 +14,18 @@ function M.is_enabled()
 end
 
 ------------------------------------------------------------
+-- Caching Setup
+------------------------------------------------------------
+local main_file_cache = setmetatable({}, { __mode = "kv" })
+
+-- Automatic cache invalidation when a buffer is deleted or wiped out.
+vim.api.nvim_create_autocmd({ "BufDelete", "BufWipeout" }, {
+  callback = function(args)
+    main_file_cache[args.buf] = nil
+  end,
+})
+
+------------------------------------------------------------
 -- Helper Functions
 ------------------------------------------------------------
 
@@ -68,6 +80,12 @@ end
 function M.get_tinymist_main_file()
   -- Try to retrieve the main file from tinymist LSP client
   local current_buf = vim.api.nvim_get_current_buf()
+
+  -- Check if the main file is already cached
+  if main_file_cache[current_buf] then
+    return main_file_cache[current_buf]
+  end
+
   local tinymist_main = nil
 
   -- Send a synchronous LSP request to get the pinned main file.
@@ -85,22 +103,36 @@ function M.get_tinymist_main_file()
   end
 
   if tinymist_main then
+    -- Update the cache and return the main file
+    main_file_cache[current_buf] = tinymist_main
     return tinymist_main
   end
 
   -- Fallback: return the current buffer's filename if no main file is pinned
-  return vim.api.nvim_buf_get_name(current_buf)
+  local fallback = vim.api.nvim_buf_get_name(current_buf)
+  main_file_cache[current_buf] = fallback
+  return fallback
 end
 
 function M.get_vimtex_main_file()
-  -- Check if VimTeX has a main file defined
-  if vim.g.vimtex and vim.g.vimtex.main and vim.fn.filereadable(vim.g.vimtex.main) == 1 then
-    return vim.g.vimtex.main
-  end
-
   -- Fallback: return the current buffer's filename if no main file is pinned
   local current_buf = vim.api.nvim_get_current_buf()
-  return vim.api.nvim_buf_get_name(current_buf)
+
+  -- Check if the main file is already cached
+  if main_file_cache[current_buf] then
+    return main_file_cache[current_buf]
+  end
+
+  local vimtex_main = nil
+  -- Check if VimTeX has a main file defined
+  if vim.g.vimtex and vim.g.vimtex.main and vim.fn.filereadable(vim.g.vimtex.main) == 1 then
+    vimtex_main = vim.g.vimtex.main
+  else
+    vimtex_main = vim.api.nvim_buf_get_name(current_buf)
+  end
+
+  main_file_cache[current_buf] = vimtex_main
+  return vimtex_main
 end
 
 ------------------------------------------------------------
