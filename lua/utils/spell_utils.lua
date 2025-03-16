@@ -99,41 +99,34 @@ end
 ------------------------------------------------------------
 
 -- Apply the appropriate spell language based on file type and file content.
--- For ".typ" files, the first 10 lines are scanned for '#set text(lang: "de")'.
--- For ".tex" files, the first 25 lines are scanned for a \usepackage[...] entry with german options.
--- Defaults to "en_us". If the current spell language already matches, no action is taken.
-function M.apply_spell_language()
+function M.apply_spell_language(main_file, pattern, header_lines, desired_lang, default_lang)
   if not auto_spell_switch_enabled then
     return
   end
+  default_lang = default_lang or "en"
 
-  local ext = vim.fn.expand("%:e")
-  local desired_lang = "en_us" -- default language if no match is found
-
-  if ext == "typ" then
-    -- This pattern matches the line:
-    -- #set text(lang: "de")
-    local typ_de_pattern = '#set%s+text%(lang:%s*"de"%s*%)'
-    if find_pattern_in_buffer(10, typ_de_pattern) then
-      desired_lang = "de_de"
-    end
-  elseif ext == "tex" then
-    -- This pattern matches lines like:
-    -- \usepackage[...german...]{babel} or \usepackage[...ngerman...]{babel}
-    local tex_pattern = "\\usepackage%[[^%]]*n?german[^%]]*%]{babel}"
-    if find_pattern_in_buffer(25, tex_pattern) then
-      desired_lang = "de_de"
-    end
+  -- Since we distinguish between file types in the autocmds, we can assume that the file type is correct here.
+  -- However, it could still be that main_file is nil, so we need to handle that case.
+  local lines = {}
+  if main_file then
+    lines = read_lines_from_file(main_file, header_lines)
+  else
+    lines = vim.api.nvim_buf_get_lines(0, 0, header_lines, false)
   end
 
-  -- If the desired language is already active, do nothing
-  if vim.bo.spelllang == desired_lang then
-    return
-  end
+  if find_pattern_in_lines(lines, pattern) then
+    -- If the desired language is already active, do nothing
+    if vim.bo.spelllang == desired_lang then
+      return
+    end
 
-  -- Otherwise, set the spell language
-  vim.cmd("setlocal spell spelllang=" .. desired_lang)
-  vim.notify("Activated " .. desired_lang .. " language for spell checking.")
+    -- Otherwise, set the spell language
+    vim.cmd("setlocal spell spelllang=" .. desired_lang)
+    vim.notify("Activated " .. desired_lang .. " language for spell checking.")
+  else
+    vim.cmd("setlocal spell spelllang=" .. default_lang)
+    vim.notify("Activated " .. default_lang .. " language for spell checking.")
+  end
 end
 
 return M
