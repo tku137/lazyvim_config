@@ -44,6 +44,8 @@ vim.api.nvim_create_autocmd("TermOpen", {
 
 -- Automatically set spellchecking languages for certain text files
 -- Create an autocommand for both .typ and .tex files that calls the apply_spell_language() function.
+-- Search for pattern in n header lines and set desired lang if pattern is present
+-- with respect to pinned main file
 vim.api.nvim_create_autocmd("BufWinEnter", {
   pattern = { "*.tex" },
   callback = function()
