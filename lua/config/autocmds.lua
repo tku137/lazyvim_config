@@ -49,7 +49,7 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   callback = function()
     local tex_pattern = "\\usepackage%[[^%]]*n?german[^%]]*%]{babel}"
     local header_lines = 25
-    local desired_lang = "de"
+    local desired_lang = "de,en"
     local main_file = require("utils.spell_utils").get_vimtex_main_file()
     require("utils.spell_utils").apply_spell_language(main_file, tex_pattern, header_lines, desired_lang)
   end,
@@ -60,7 +60,7 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   callback = function()
     local typ_pattern = '#set%s+text%(lang:%s*"de"%s*%)'
     local header_lines = 25
-    local desired_lang = "de"
+    local desired_lang = "de,en"
     local main_file = require("utils.spell_utils").get_vimtex_main_file()
     require("utils.spell_utils").apply_spell_language(main_file, typ_pattern, header_lines, desired_lang)
   end,
