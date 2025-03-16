@@ -69,24 +69,17 @@ function M.get_tinymist_main_file()
   -- Try to retrieve the main file from tinymist LSP client
   local current_buf = vim.api.nvim_get_current_buf()
   local tinymist_main = nil
-  local clients = vim.lsp.get_active_clients({ bufnr = current_buf })
-  for _, client in ipairs(clients) do
-    if client.name == "tinymist" then
-      -- Send a synchronous LSP request to get the pinned main file.
-      local params = {} -- no specific parameters needed
-      local response = vim.lsp.buf_request_sync(current_buf, "workspace/executeCommand", {
-        command = "tinymist.getMain",
-        arguments = {},
-      }, 1000)
-      if response then
-        for _, res in pairs(response) do
-          if res.result and type(res.result) == "string" and res.result ~= "" then
-            tinymist_main = res.result
-            break
-          end
-        end
-      end
-      if tinymist_main then
+  local client = vim.lsp.get_clients({ name = "tinymist" })[1]
+
+  -- Send a synchronous LSP request to get the pinned main file.
+  local response = vim.lsp.buf_request_sync(current_buf, "workspace/executeCommand", {
+    command = "tinymist.getMain",
+    arguments = {},
+  }, 1000)
+  if response then
+    for _, res in pairs(response) do
+      if res.result and type(res.result) == "string" and res.result ~= "" then
+        tinymist_main = res.result
         break
       end
     end
