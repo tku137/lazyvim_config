@@ -45,8 +45,28 @@ vim.api.nvim_create_autocmd("TermOpen", {
 -- Automatically set spellchecking languages for certain text files
 -- Create an autocommand for both .typ and .tex files that calls the apply_spell_language() function.
 vim.api.nvim_create_autocmd("BufWinEnter", {
-  pattern = { "*.typ", "*.tex" },
+  pattern = { "*.tex" },
   callback = function()
-    require("utils.spell_utils").apply_spell_language()
+    -- require("utils.spell_utils").apply_spell_language_tex()
+    local main_file = require("utils.spell_utils").get_vimtex_main_file()
+    vim.notify("main file: " .. main_file)
   end,
 })
+
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  pattern = { "*.typ" },
+  callback = function()
+    -- require("utils.spell_utils").apply_spell_language_typ()
+    local main_file = require("utils.spell_utils").get_tinymist_main_file()
+    vim.notify("main file: " .. main_file)
+  end,
+})
+
+-- vim.api.nvim_create_autocmd("BufWinEnter", {
+--   pattern = { "*.typ", "*.tex" },
+--   callback = function()
+--     -- require("utils.spell_utils").apply_spell_language()
+--     local main_file = require("utils.spell_utils").get_main_file()
+--     vim.notify("main file: " .. main_file)
+--   end,
+-- })

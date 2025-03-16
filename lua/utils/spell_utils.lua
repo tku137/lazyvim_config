@@ -13,7 +13,6 @@ function M.is_enabled()
   return auto_spell_switch_enabled
 end
 
---
 -- Helper function: Search for a given pattern in the first 'max_lines'
 -- of the buffer (performance consideration).
 -- This can be used for an import pattern in a markup file type, but
@@ -64,6 +63,52 @@ function M.apply_spell_language()
   -- Otherwise, set the spell language
   vim.cmd("setlocal spell spelllang=" .. desired_lang)
   vim.notify("Activated " .. desired_lang .. " language for spell checking.")
+end
+
+function M.get_tinymist_main_file()
+  -- Try to retrieve the main file from tinymist LSP client
+  local current_buf = vim.api.nvim_get_current_buf()
+  local tinymist_main = nil
+  local clients = vim.lsp.get_active_clients({ bufnr = current_buf })
+  for _, client in ipairs(clients) do
+    if client.name == "tinymist" then
+      -- Send a synchronous LSP request to get the pinned main file.
+      local params = {} -- no specific parameters needed
+      local response = vim.lsp.buf_request_sync(current_buf, "workspace/executeCommand", {
+        command = "tinymist.getMain",
+        arguments = {},
+      }, 1000)
+      if response then
+        for _, res in pairs(response) do
+          if res.result and type(res.result) == "string" and res.result ~= "" then
+            tinymist_main = res.result
+            break
+          end
+        end
+      end
+      if tinymist_main then
+        break
+      end
+    end
+  end
+
+  if tinymist_main then
+    return tinymist_main
+  end
+
+  -- Fallback: return the current buffer's filename if no main file is pinned
+  return vim.api.nvim_buf_get_name(current_buf)
+end
+
+function M.get_vimtex_main_file()
+  -- Check if VimTeX has a main file defined
+  if vim.g.vimtex and vim.g.vimtex.main and vim.fn.filereadable(vim.g.vimtex.main) == 1 then
+    return vim.g.vimtex.main
+  end
+
+  -- Fallback: return the current buffer's filename if no main file is pinned
+  local current_buf = vim.api.nvim_get_current_buf()
+  return vim.api.nvim_buf_get_name(current_buf)
 end
 
 return M
