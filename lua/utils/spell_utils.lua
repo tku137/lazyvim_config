@@ -31,6 +31,10 @@ end
 
 -- Read the first n lines from a file at 'filepath'
 local function read_lines_from_file(filepath, n)
+  -- Sanity check: return an empty table if the file does not exist
+  if vim.fn.filereadable(filepath) ~= 1 then
+    return {}
+  end
   local ok, lines = pcall(vim.fn.readfile, filepath)
   if not ok or not lines then
     return {}
@@ -50,6 +54,11 @@ local function find_pattern_in_lines(lines, pattern)
     end
   end
   return false
+end
+
+-- Check if a filepath is already the current buffer
+local function is_current_buffer(filepath)
+  return vim.api.nvim_buf_get_name(0) == filepath
 end
 
 ------------------------------------------------------------
@@ -108,7 +117,7 @@ function M.apply_spell_language(main_file, pattern, header_lines, desired_lang, 
   -- Since we distinguish between file types in the autocmds, we can assume that the file type is correct here.
   -- However, it could still be that main_file is nil, so we need to handle that case.
   local lines = {}
-  if main_file then
+  if main_file and not is_current_buffer(main_file) then
     lines = read_lines_from_file(main_file, header_lines)
   else
     lines = vim.api.nvim_buf_get_lines(0, 0, header_lines, false)
