@@ -25,6 +25,37 @@ return {
     },
   },
   {
+    "sindrets/diffview.nvim",
+    cmd = { "DiffviewOpen" },
+    opts = {
+      enhanced_diff_hl = true,
+      view = {
+        default = { winbar_info = true },
+        file_history = { winbar_info = true },
+      },
+      hooks = {
+        diff_buf_read = function(bufnr)
+          vim.b[bufnr].view_activated = false
+        end,
+      },
+    },
+    keys = {
+      {
+        prefix .. "D",
+        "<Cmd>DiffviewOpen<CR>",
+        desc = "Open DiffView",
+        mode = "n",
+      },
+    },
+    specs = {
+      {
+        "NeogitOrg/neogit",
+        optional = true,
+        opts = { integrations = { diffview = true } },
+      },
+    },
+  },
+  {
     "wintermute-cell/gitignore.nvim",
     lazy = true,
     dependencies = {
