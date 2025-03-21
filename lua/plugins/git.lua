@@ -118,8 +118,12 @@ return {
   },
   {
     "pwntester/octo.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+    },
     opts = {
       users = "assignable", -- Users for assignees or reviewers. Values: "search" | "mentionable" | "assignable"
+      default_merge_method = "squash", -- default merge method which should be used for both `Octo pr merge` and merging from picker, could be `commit`, `rebase` or `squash`
     },
   },
 }
