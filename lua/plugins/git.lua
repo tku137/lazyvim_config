@@ -110,9 +110,6 @@ return {
     dependencies = {
       "MunifTanjim/nui.nvim",
       "nvim-lua/plenary.nvim",
-      {
-        "chrisgrieser/nvim-tinygit", -- optional: for Github PR view
-      },
     },
     cmd = { "Fugit2", "Fugit2Diff", "Fugit2Graph" },
     keys = {
