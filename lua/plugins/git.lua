@@ -119,4 +119,10 @@ return {
       { "<leader>gf", mode = "n", desc = "Fugit2", "<cmd>Fugit2<cr>" },
     },
   },
+  {
+    "pwntester/octo.nvim",
+    opts = {
+      users = "assignable", -- Users for assignees or reviewers. Values: "search" | "mentionable" | "assignable"
+    },
+  },
 }

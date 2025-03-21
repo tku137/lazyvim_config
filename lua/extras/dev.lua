@@ -13,6 +13,7 @@ return {
 
   -- Git extras
   { import = "lazyvim.plugins.extras.editor.mini-diff" },
+  { import = "lazyvim.plugins.extras.util.octo" },
 
   -- AI-related extras
   { import = "lazyvim.plugins.extras.ai.copilot" },
